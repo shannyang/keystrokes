@@ -6,10 +6,11 @@ from email.mime.text import MIMEText
 TEXTFILE = "text.txt" # dummy file for MIMEText
 SERVER = "localhost"
 
-def newMessage(subject, message, time):
+def newMessage(subject, message):
     global TEXTFILE
+    global SERVER
 
-    fp = open(textfile,"rb")
+    fp = open(TEXTFILE,"rb")
     msg = MIMEText(fp.read())
     s = smtplib.SMTP(SERVER)
     fp.close()
@@ -20,3 +21,4 @@ def newMessage(subject, message, time):
 
     s.sendmail(msg["From"], [msg["To"]], message)
     s.quit()
+newMessage("hi","maya is a good girl")
