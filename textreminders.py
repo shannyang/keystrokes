@@ -3,7 +3,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 # Globals
-TEXTFILE = "text.txt" # dummy text file to run program
+TEXTFILE = "text.txt" # dummy file for MIMEText
 SERVER = "localhost"
 
 def newMessage(subject, message, time):
