@@ -1,0 +1,6 @@
+import shelve
+
+d = shelve.open("recipients")
+d["Shannon"] = "3015237912@tmomail.net"
+
+d.close()

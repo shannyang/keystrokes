@@ -1,10 +1,9 @@
 # textreminders.py
-# Script to text email reminders to 
+# Script to text email reminders, used with cron
 
 # Modules
 import smtplib
 import time
-import shelve
 from email.mime.text import MIMEText
 
 # Server stuff
@@ -14,29 +13,26 @@ PORT = 587
 USER = "keystrokeforensics@gmail.com"
 PASS = "youwillneverguessthis" # egregious
 
-# Recipient data
-RECIPIENTS = "recipients"
-
-def sendMessage(subject,message):
-    global RECIPIENTS
-    recipients = shelve.open(RECIPIENTS)
-    for recipient in recipients:
-        newMessage(subject,message,recipients[recipient])
-    recipients.close()
-            
 def newMessage(subject, message, recipient):
-    global SERVER, PORT, USER, PASS
 
-    msg = MIMEText(message)
+    # Login
+    global SERVER, PORT, USER, PASS
     s = smtplib.SMTP(SERVER,PORT)
     s.ehlo()
     s.starttls()
     s.ehlo()
     s.login(USER,PASS)
 
+    # Creates message
+    msg = MIMEText(message)
     msg["Subject"] = subject
     msg["From"] = USER
     msg["To"] = recipient
-    
+
+    # Send
     s.sendmail(USER, [msg["To"]], msg.as_string())
     s.quit()
+
+newMessage("Yo!",
+           "Sent at %d:%d" % (time.localtime().tm_hour, time.localtime().tm_min),
+           "3015237912@tmomail.net")
